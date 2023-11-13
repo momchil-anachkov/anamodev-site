@@ -1,0 +1,37 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section>
+				<ul>
+                    <li>
+                        <a href="https://github.com/momchil-anachkov/rust_terminal_tetris">
+                             <img width={720} height={360} src="https://github.com/momchil-anachkov/rust_terminal_tetris/raw/main/showcase.gif" alt="Tetris with Emojis as UI" />
+                             <h4 class="title">Tetris in the Terminal</h4>
+                        </a>
+                    </li>
+				</ul>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}

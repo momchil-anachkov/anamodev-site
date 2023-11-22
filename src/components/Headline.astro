@@ -1,45 +1,60 @@
 ---
 ---
 
-<span class="headline">Making Software Better</span>
 
 <script>
-const keyFrames = [
-    "",
+const keyFrames :string[] = [
+    "M",
     "Making Software Better",
-    "Making",
-    "OMAGAAAD",
     "Making Better Software",
 ];
 
 // TODO: Don't let the text wiggle when it's in the center
 // TODO: Generate text frames from key frames
 // TODO: Make the animation work not just for the first key frame
-// const textFrames = keyFrames;
 
-const textFrames = [];
+const textFrames: string[] = [];
 
 // Find the branch point forward
 
-let currentKeyFrame = 0;
-
-// Find the branch point
 let branchPoint = 0;
-do {
-    if (keyFrames[0][branchPoint] === keyFrames[1][branchPoint]) {
-        branchPoint += 1;
-    } else {
-        break;
+
+for (let keyFrameIndex = 0; keyFrameIndex < keyFrames.length - 1; keyFrameIndex += 1) {
+    let currentKeyFrame = keyFrames[keyFrameIndex];
+    let nextKeyFrame = keyFrames[keyFrameIndex + 1];
+
+    // Find the branch point where the current keyframe text and the next keyframe text differ
+    let branchPoint = 0;
+    while (branchPoint <= currentKeyFrame.length && branchPoint <= nextKeyFrame.length) {
+        if (currentKeyFrame[branchPoint] === nextKeyFrame[branchPoint]) {
+            branchPoint += 1;
+        } else {
+            break;
+        }
     }
-} while (branchPoint <= keyFrames[0].length && branchPoint <= keyFrames[1].length);
 
-// Generate the in-between frames between us and the branch point
-let tweenFrameIndex = 0;
-do {
-    textFrames.push(keyFrames[1].slice(branchPoint, branchPoint+tweenFrameIndex));
-    tweenFrameIndex += 1;
-} while (branchPoint + tweenFrameIndex <= keyFrames[1].length);
+    // If the branch point is behind us, this means the next keyframe has shorter text
+    // So we generate the in-between frames back to branch point
+    if (branchPoint < currentKeyFrame.length) {
+        let branchPointOffset = currentKeyFrame.length - 1;
+        while (branchPointOffset > branchPoint)
+        {
+            textFrames.push(currentKeyFrame.slice(0, branchPointOffset));
+            branchPointOffset -= 1;
+        }
+    }
 
+    // TODO: Fix the branchpoint variable shadowing (potentially)
+    // TODO: Remove the do-while (maybe)
+    // Generate the in-between frames from where we are, to the end of the next keyframe
+    let branchPointOffset = branchPoint;
+    while (branchPointOffset <= nextKeyFrame.length) {
+        textFrames.push(nextKeyFrame.slice(0, branchPointOffset));
+        branchPointOffset += 1;
+    }
+}
+
+// Just the animation
 const headline = document.querySelector(".headline");
 
 let frameNumber = 0;
@@ -50,6 +65,10 @@ const intervalId = setInterval(() => {
     if (frameNumber === textFrames.length) {
         clearInterval(intervalId);
     }
-}, 66); // TODO: Translate this into characters per second because that's more easy to think about
+}, 80); // TODO: Translate this into characters per second because that's more easy to think about
 
 </script>
+
+<style>
+
+</style>

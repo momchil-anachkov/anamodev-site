@@ -39,6 +39,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 }
 
 .headline {
+	min-height: 1lh;
 	width: 16ch;
 }
 
@@ -56,7 +57,7 @@ p.headline.headline--with-cursor::after {
 
 <script>
 	const keyFrames :string[] = [
-		"M",
+		"",
 		"Making Software Better",
 		"Making Better Software",
 	];
@@ -104,10 +105,35 @@ p.headline.headline--with-cursor::after {
 
 	// Animate the typing in the dom
 	const headline: HTMLElement = document.querySelector(".headline.headline--with-cursor")!;
+
+	let isPaused = false;
+	let pauseStart = 0;
+	let pauseTimer = 0;
+	let pauseDurationOnKeyFrame = 1000;
 	let frameNumber = 0;
 	const intervalId = setInterval(() => {
-		headline.innerText = textFrames[frameNumber]!;
+		if (isPaused) {
+			pauseTimer = Date.now() - pauseStart;
+			if (pauseTimer > pauseDurationOnKeyFrame) {
+				isPaused = false;
+				pauseTimer = 0;
+			}
+		}
+
+		if (isPaused) {
+			return;
+		}
+
+		// Set the text for the current frame
+		const text = textFrames[frameNumber]!;
+		headline.innerText = text;
 		frameNumber++;
+
+		// Pause on any full keyframe for dramatic effect
+		if (keyFrames.includes(text) && frameNumber > 1) {
+			isPaused = true;
+			pauseStart = Date.now();
+		}
 
 		// Stop when we run out of text
 		if (frameNumber === textFrames.length) {

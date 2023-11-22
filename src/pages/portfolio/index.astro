@@ -29,8 +29,43 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 </html>
 
 <style>
-img {
-    width: 100px;
-    height: 100px;
-    object-fit: contain;
-}
+	ul {
+		list-style: none;
+		padding: 0;
+	}
+
+	ul li {
+		padding: 1em;
+	}
+
+	img {
+		width: 100px;
+		height: 100px;
+		object-fit: contain;
+	}
+
+	a:hover h4 {
+		color: var(--accent);
+	}
+
+	h4 {
+		transition: color .2s ease;
+	}
+
+	ul a img {
+		transition: box-shadow .2s ease;
+	}
+
+	ul a:hover img {
+		box-shadow: var(--box-shadow);
+	}
+
+	ul a {
+		display: grid;
+		grid-template-columns: max-content auto;
+		grid-column-gap: 1em;
+		align-items: center;
+		text-decoration: none;
+	}
+
+</style>

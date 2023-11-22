@@ -108,8 +108,8 @@ p.headline.headline--with-cursor::after {
 
 	// Go through all the keyframes by two
 	for (let keyFrameIndex = 0; keyFrameIndex < keyFrames.length - 1; keyFrameIndex += 1) {
-		let currentKeyFrame = keyFrames[keyFrameIndex];
-		let nextKeyFrame = keyFrames[keyFrameIndex + 1];
+		let currentKeyFrame = keyFrames[keyFrameIndex]!;
+		let nextKeyFrame = keyFrames[keyFrameIndex + 1]!;
 
 		// Find the branch point where the current keyframe text and the next keyframe text differ
 		let branchPoint = 0;
@@ -146,10 +146,10 @@ p.headline.headline--with-cursor::after {
 	const frameTime = 1000 / charactersPerSecond;
 
 	// Animate the typing in the dom
-	const headline = document.querySelector(".headline.headline--with-cursor");
+	const headline: HTMLElement = document.querySelector(".headline.headline--with-cursor")!;
 	let frameNumber = 0;
 	const intervalId = setInterval(() => {
-		headline.innerText = textFrames[frameNumber];
+		headline.innerText = textFrames[frameNumber]!;
 		frameNumber++;
 
 		// Stop when we run out of text
